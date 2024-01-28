@@ -1,55 +1,40 @@
-import React, { useState } from 'react';
-
-import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
-import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
-import './App.css';
+// App.jsx
+import "./App.css";
+import React, { useState } from "react";
+import UserForm from "./UserForm";
 
 const App = () => {
-  const [courseGoals, setCourseGoals] = useState([
-    { text: 'Do all exercises!', id: 'g1' },
-    { text: 'Finish the course!', id: 'g2' }
-  ]);
+  const [Expenses, SetExpenses] = useState([]);
 
-  const addGoalHandler = enteredText => {
-    setCourseGoals(prevGoals => {
-      const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
-      return updatedGoals;
-    });
+  const AddExpense = (expense) => {
+    SetExpenses((prevExpenses) => [expense, ...prevExpenses]);
   };
-
-  const deleteItemHandler = goalId => {
-    setCourseGoals(prevGoals => {
-      const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
-      return updatedGoals;
-    });
-  };
-
-  let content = (
-    <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
-  );
-
-  if (courseGoals.length > 0) {
-    content = (
-      <CourseGoalList items={courseGoals} onDeleteItem={deleteItemHandler} />
-    );
-  }
 
   return (
     <div>
-      <section id="goal-form">
-        <CourseInput onAddGoal={addGoalHandler} />
-      </section>
-      <section id="goals">
-        {content}
-        {/* {courseGoals.length > 0 && (
-          <CourseGoalList
-            items={courseGoals}
-            onDeleteItem={deleteItemHandler}
-          />
-        ) // <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
-        } */}
-      </section>
+      <UserForm onAddExpense={AddExpense} />
+      {Expenses.map((expense) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+            backgroundColor: "black",
+            color: "white",
+            marginTop: "-600px",
+            
+          }}
+          key={expense.id}
+        >
+          {expense.Age >= 0 && (
+            <div >
+              <p style={{ padding:"8px",width:"680px",border:"2px solid white",marginTop:"100px"}}> {expense.UserName}</p>
+              {expense.Age && <p style={{ width:"700px",padding:"8px",border:"2px solid white"}}> ({expense.Age} Years Old)</p>}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
